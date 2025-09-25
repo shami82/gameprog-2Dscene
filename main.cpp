@@ -149,34 +149,35 @@ void update()
         BASE_SIZE.y + MAX_AMP * cos(gPulseTime)
     };
 
-    // sin wave movement for alakaam
+    // sin wave movement for alakazam from left
     gPosition.x += 100 * deltaTime;
     if (gPosition.x > SCREEN_WIDTH + 100){
         gPosition.x = -100;
     }
     gPosition.y = ORIGIN.y + 50 * sin(gPulseTime * 2);
 
-    // ball orbit
+    // pokeball orbiting around alakazam
     float orbitRadius = 150.0f;
     float orbitSpeed = 1.5f;
 
-    gBallAngle += orbitSpeed * deltaTime;
+    gBallAngle += orbitSpeed * deltaTime; 
 
     gBallPosition = {
         gPosition.x + orbitRadius * cos(gBallAngle),
         gPosition.y + orbitRadius * sin(gBallAngle)
     };
 
-    gBallRotation += -180.0f * deltaTime; //spin ball
+    // rotate pokeball
+    gBallRotation += -180.0f * deltaTime;
 
-    // cos wave for psych symbol
+    // cos wave movement for psych symbol from right
     gPsychicPosition.x -= 100 * 2 * deltaTime;
     if (gPsychicPosition.x < -100){
         gPsychicPosition.x = SCREEN_WIDTH + 100;
     }
     gPsychicPosition.y = ORIGIN.y + 200 * cos(gPulseTime * 2);
 
-    // color changing bg vars
+    // color changing bg by hue shifting
     gHue += 20.0f * deltaTime;
     if (gHue > 360.0f) gHue -= 360.0f;
 
@@ -185,7 +186,8 @@ void update()
 void render()
 {
     BeginDrawing();
-    Color bgColor = ColorFromHSV(gHue, 0.9f, 0.25f); //hue, sat, bright
+    // setting the bg to be able to shift
+    Color bgColor = ColorFromHSV(gHue, 0.4f, 0.25f); //hue, sat, bright
     ClearBackground(bgColor);
 
     // BACKGROUND WITH THE PSYCHIC SYMBOL --------------------------------
@@ -194,12 +196,10 @@ void render()
         100, 100
     };
 
-    // Origin inside the source texture (center of the texture)
     Vector2 psychObjectOrigin = {
         25, 25
     };
 
-    // Destination rectangle – centered on gPosition
     DrawTexturePro(
         gPsychicTexture,
         gPsychicArea,
