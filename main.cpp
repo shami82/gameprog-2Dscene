@@ -26,7 +26,7 @@ constexpr Vector2 ORIGIN      = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
 constexpr Vector2 BASE_SIZE   = { (float) SIZE, (float) SIZE };
 
 constexpr char POKE[] = "assets/alakazam.png";
-constexpr char BALL[] = "assets/pokeball.webp";
+constexpr char BALL[] = "assets/pokeball.png";
 constexpr char PSYCHIC[] = "assets/psychic.png";
 
 // Global Variables
@@ -55,8 +55,8 @@ Vector2 gBallPosition;
 float gBallAngle;
 float gBallRotation;
 
-Vector2 ballSize = {50, 50};
-
+Vector2 ballSize = {25, 25};
+Vector2 gPsychicPosition = {SCREEN_WIDTH - 100, ORIGIN.y};
 
 // Function Declarations
 Color ColorFromHex(const char *hex);
@@ -145,7 +145,7 @@ void update()
     gPreviousTicks = ticks;
 
     gPulseTime += deltaTime;
-    gAngle += 30.0f * deltaTime;  // rotation angle for poke
+    gAngle += 50.0f * deltaTime;  // rotation angle for poke
 
     // pulsing size for alakazam
     gPokeScale = {
@@ -153,18 +153,25 @@ void update()
         BASE_SIZE.y + MAX_AMP * cos(gPulseTime)
     };
 
+    // sin wave movement for alakaam
+    gPosition.x = 150 + 50*sin(gPulseTime);
+    gPosition.y = ORIGIN.y + 30*sin(gPulseTime * 0.5f);
+
     // ball orbit
-    float orbitRadius = 100.0f;
+    float orbitRadius = 150.0f;
     float orbitSpeed = 1.5f;
 
     gBallAngle += orbitSpeed * deltaTime;
 
     gBallPosition = {
-        ORIGIN.x + orbitRadius * cos(gBallAngle),
-        ORIGIN.y + orbitRadius * sin(gBallAngle)
+        gPosition.x + orbitRadius * cos(gBallAngle),
+        gPosition.y + orbitRadius * sin(gBallAngle)
     };
 
-    gBallRotation += 90.0f * deltaTime; //spin ball
+    gBallRotation += -180.0f * deltaTime; //spin ball
+
+    gPsychicPosition.x = SCREEN_WIDTH - 100;
+    gPsychicPosition.y = ORIGIN.y + 100 * cos(gPulseTime);
 
     frame++;
 
@@ -197,15 +204,17 @@ void render()
     BeginDrawing();
     ClearBackground(ColorFromHex(BG_COLOUR));
 
+    // DrawCircleV(gBallPosition, 5, RED);
+
     // BACKGROUND WITH THE PSYCHIC SYMBOL --------------------------------
     Rectangle psychDestinationArea = {
-        0, 0,
-        SCREEN_HEIGHT, SCREEN_WIDTH
+        gPsychicPosition.x, gPsychicPosition.y,
+        50, 50
     };
 
     // Origin inside the source texture (centre of the texture)
     Vector2 psychObjectOrigin = {
-        0, 0
+        25, 25
     };
 
     // Destination rectangle – centred on gPosition
@@ -239,7 +248,7 @@ void render()
 
     // ALAKAZAM TECTURE THINGS -------------------------------------------
     Rectangle pokeDestinationArea = {
-        ORIGIN.x, ORIGIN.y,
+        gPosition.x, gPosition.y,
         gPokeScale.x, gPokeScale.y
     };
 
@@ -255,16 +264,6 @@ void render()
         0.0f,
         WHITE
     );
-
-    // Render the texture on screen
-    // DrawTexturePro(
-    //     gTexture, 
-    //     textureArea, 
-    //     destinationArea, 
-    //     objectOrigin, 
-    //     gAngle, 
-    //     WHITE
-    // );
 
     EndDrawing();
 }
