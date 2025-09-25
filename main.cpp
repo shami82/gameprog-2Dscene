@@ -17,7 +17,7 @@ enum AppStatus { TERMINATED, RUNNING };
 constexpr int   SCREEN_WIDTH  = 1000,
                 SCREEN_HEIGHT = 600,
                 FPS           = 60,
-                SIZE          = 200,
+                SIZE          = 200;
 constexpr float MAX_AMP       = 10.0f;
 
 constexpr Vector2 ORIGIN      = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
