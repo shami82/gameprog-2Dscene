@@ -136,16 +136,13 @@ void processInput()
 
 void update() 
 {
-    /**
-     * @todo Apply delta time to the time-dependent logic
-     */
     // delta time
     float ticks = (float) GetTime();
     float deltaTime = ticks - gPreviousTicks;
     gPreviousTicks = ticks;
 
     gPulseTime += deltaTime;
-    gAngle += 50.0f * deltaTime;  // rotation angle for poke
+    gAngle += 50.0f * deltaTime;  // rotation angle for psych
 
     // pulsing size for alakazam
     gPokeScale = {
@@ -154,8 +151,11 @@ void update()
     };
 
     // sin wave movement for alakaam
-    gPosition.x = 150 + 50*sin(gPulseTime);
-    gPosition.y = ORIGIN.y + 30*sin(gPulseTime * 0.5f);
+    gPosition.x += 100 * deltaTime;
+    if (gPosition.x > SCREEN_WIDTH + 100){
+        gPosition.x = -100;
+    }
+    gPosition.y = ORIGIN.y + 50 * sin(gPulseTime * 2);
 
     // ball orbit
     float orbitRadius = 150.0f;
@@ -170,33 +170,15 @@ void update()
 
     gBallRotation += -180.0f * deltaTime; //spin ball
 
-    gPsychicPosition.x = SCREEN_WIDTH - 100;
-    gPsychicPosition.y = ORIGIN.y + 100 * cos(gPulseTime);
+    // cos wave for psych symbol
+    gPsychicPosition.x -= 100 * deltaTime;
+    if (gPsychicPosition.x < -100){
+        gPsychicPosition.x = SCREEN_WIDTH + 100;
+    }
+    gPsychicPosition.y = ORIGIN.y + 50 * cos(gPulseTime * 2);
 
     frame++;
 
-    /**
-     * @todo Switch member every 100 fames
-     */
-
-     /**
-     * @todo NONE MOVE ONLY UP AND DOWN
-     */
-
-
-    /**
-     * @todo EACH TRANSLATE DIFFERENTLY
-     */
-
-
-    /**
-     * @todo Rotating
-     */
-
-
-    /**
-     * @todo Scaling
-     */ 
 }
 
 void render()
@@ -204,12 +186,10 @@ void render()
     BeginDrawing();
     ClearBackground(ColorFromHex(BG_COLOUR));
 
-    // DrawCircleV(gBallPosition, 5, RED);
-
     // BACKGROUND WITH THE PSYCHIC SYMBOL --------------------------------
     Rectangle psychDestinationArea = {
         gPsychicPosition.x, gPsychicPosition.y,
-        50, 50
+        100, 100
     };
 
     // Origin inside the source texture (centre of the texture)
