@@ -36,9 +36,8 @@ float     gScaleFactor   = SIZE,
           gPulseTime     = 0.0f,
           gPreviousTicks = 0.0f,
           changeClock = 0.0f;
-Vector2   gPosition      = ORIGIN;
+Vector2   gPosition      = {0, ORIGIN.y};
 Vector2   gScale         = BASE_SIZE;
-int frame = 0;
 
 //variables for textures
 Texture2D gPokeTexture;
@@ -57,6 +56,9 @@ float gBallRotation;
 
 Vector2 ballSize = {25, 25};
 Vector2 gPsychicPosition = {SCREEN_WIDTH - 100, ORIGIN.y};
+
+// color chanign bg hue
+float gHue = 270.0f;
 
 // Function Declarations
 Color ColorFromHex(const char *hex);
@@ -171,20 +173,23 @@ void update()
     gBallRotation += -180.0f * deltaTime; //spin ball
 
     // cos wave for psych symbol
-    gPsychicPosition.x -= 100 * deltaTime;
+    gPsychicPosition.x -= 100 * 2 * deltaTime;
     if (gPsychicPosition.x < -100){
         gPsychicPosition.x = SCREEN_WIDTH + 100;
     }
-    gPsychicPosition.y = ORIGIN.y + 50 * cos(gPulseTime * 2);
+    gPsychicPosition.y = ORIGIN.y + 200 * cos(gPulseTime * 2);
 
-    frame++;
+    // color changing bg vars
+    gHue += 20.0f * deltaTime;
+    if (gHue > 360.0f) gHue -= 360.0f;
 
 }
 
 void render()
 {
     BeginDrawing();
-    ClearBackground(ColorFromHex(BG_COLOUR));
+    Color bgColor = ColorFromHSV(gHue, 0.9f, 0.25f); //hue, sat, bright
+    ClearBackground(bgColor);
 
     // BACKGROUND WITH THE PSYCHIC SYMBOL --------------------------------
     Rectangle psychDestinationArea = {
@@ -192,12 +197,12 @@ void render()
         100, 100
     };
 
-    // Origin inside the source texture (centre of the texture)
+    // Origin inside the source texture (center of the texture)
     Vector2 psychObjectOrigin = {
         25, 25
     };
 
-    // Destination rectangle – centred on gPosition
+    // Destination rectangle – centered on gPosition
     DrawTexturePro(
         gPsychicTexture,
         gPsychicArea,
