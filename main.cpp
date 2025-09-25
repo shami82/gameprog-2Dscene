@@ -31,7 +31,7 @@ constexpr char PSYCHIC[] = "assets/psychic.png";
 AppStatus gAppStatus     = RUNNING;
 float     gAngle         = 0.0f,
           gPulseTime     = 0.0f,
-          gPreviousTicks = 0.0f,
+          gPreviousTicks = 0.0f;
 
 //variables for textures
 Texture2D gPokeTexture;
