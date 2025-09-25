@@ -18,10 +18,8 @@ constexpr int   SCREEN_WIDTH  = 1000,
                 SCREEN_HEIGHT = 600,
                 FPS           = 60,
                 SIZE          = 200,
-                FRAME_LIMIT   = 100;
 constexpr float MAX_AMP       = 10.0f;
 
-constexpr char    BG_COLOUR[] = "#000000";
 constexpr Vector2 ORIGIN      = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
 constexpr Vector2 BASE_SIZE   = { (float) SIZE, (float) SIZE };
 
@@ -31,13 +29,9 @@ constexpr char PSYCHIC[] = "assets/psychic.png";
 
 // Global Variables
 AppStatus gAppStatus     = RUNNING;
-float     gScaleFactor   = SIZE,
-          gAngle         = 0.0f,
+float     gAngle         = 0.0f,
           gPulseTime     = 0.0f,
           gPreviousTicks = 0.0f,
-          changeClock = 0.0f;
-Vector2   gPosition      = {0, ORIGIN.y};
-Vector2   gScale         = BASE_SIZE;
 
 //variables for textures
 Texture2D gPokeTexture;
@@ -47,6 +41,9 @@ Texture2D gPsychicTexture;
 Rectangle gPokeArea;
 Rectangle gBallArea;
 Rectangle gPsychicArea;
+
+Vector2 gPosition = {0, ORIGIN.y};
+Vector2 gScale = BASE_SIZE;
 
 Vector2 gPokeScale;
 Vector2 gBallPosition;
