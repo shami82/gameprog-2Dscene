@@ -95,7 +95,7 @@ Color ColorFromHex(const char *hex)
 
 void initialise()
 {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Textures");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Project 1 - 2D Scene");
 
     gPokeTexture = LoadTexture(POKE);
     gBallTexture = LoadTexture(BALL);
